@@ -20,7 +20,7 @@ const CreateBlog = () => {
       body: JSON.stringify(blog)
     }
     setIsLoading(true)
-    fetch("http://localhost:8000/blogs", options)
+    fetch("http://localhost:8001/blogs", options)
         .then(() => {
           console.log("new blog added")
           setIsLoading(false)

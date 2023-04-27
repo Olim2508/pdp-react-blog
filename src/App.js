@@ -3,7 +3,7 @@ import Home from "./components/Home/Home";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CreateBlog from "./components/CreateBlog/CreateBlog";
 import BlogDetail from "./components/BlogDetail/BlogDetail";
-import NotFound from "./components/NotFound/NotFound";
+
 
 
 function App() {
