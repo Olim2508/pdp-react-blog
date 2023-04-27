@@ -5,7 +5,7 @@ import {
   getPostDetailSuccess,
   getPosts,
   getPostsError,
-  getPostsSuccess, postsTypes,
+  getPostsSuccess, postsTypes, updatePostError, updatePostSuccess,
 } from "./redux/actions/types";
 
 const BASE_API_URL = process.env.REACT_APP_BASE_URL
@@ -52,6 +52,21 @@ export const createPostRequest = (dispatch, data) => {
       .then((response) => response.json())
       .then((data) => dispatch(createPostSuccess(data)))
       .catch((error) => dispatch(createPostError(error)));
+};
+
+
+export const updatePostRequest = (dispatch, id, data) => {
+  dispatch({type: postsTypes.UPDATE_POST});
+  const headers = { 'Content-Type': 'application/json' }
+  const options = {
+    method: "PUT",
+    headers: headers,
+    body: JSON.stringify(data)
+  }
+  fetch(`${BASE_API_URL}/blogs/${id}`, options)
+      .then((response) => response.json())
+      .then((data) => dispatch(updatePostSuccess(data)))
+      .catch((error) => dispatch(updatePostError(error)));
 };
 
 // export const fetchPosts = () => {

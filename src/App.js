@@ -1,9 +1,10 @@
-import Navbar from "./components/Navbar/Navbar";
-import Home from "./components/Home/Home";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import CreateBlog from "./components/CreateBlog/CreateBlog";
-import BlogDetail from "./components/BlogDetail/BlogDetail";
+import CreateBlog from "./components/CreateBlog";
+import BlogDetail from "./components/BlogDetail";
 import React from "react";
+import BlogUpdate from "./components/BlogUpdate";
 
 
 
@@ -24,8 +25,11 @@ function App() {
                         <Route path={"/blogs/:id"}>
                             <BlogDetail/>
                         </Route>
+                        <Route path={"/update/:id"}>
+                            <BlogUpdate/>
+                        </Route>
                         {/*<Route path="*">*/}
-                        {/*    <NotFound/>*/}
+                        {/*    <Index/>*/}
                         {/*</Route>*/}
                     </div>
                 </React.Fragment>

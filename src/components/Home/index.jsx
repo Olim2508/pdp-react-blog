@@ -1,7 +1,7 @@
-import BlogList from "../BlogList/BlogList";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getPostsRequest} from "../../api";
+import BlogList from "../BlogList";
 
 const Home = () => {
   // const url = "http://localhost:8001/blogs"

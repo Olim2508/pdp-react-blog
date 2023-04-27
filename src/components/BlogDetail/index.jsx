@@ -1,4 +1,4 @@
-import {useHistory, useParams} from "react-router-dom";
+import {Link, useHistory, useParams} from "react-router-dom";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {deletePostRequest, getPostDetailRequest} from "../../api";
@@ -6,8 +6,6 @@ import {postsTypes} from "../../redux/actions/types";
 
 const BlogDetail = () => {
     const {id} = useParams()
-    // const url = `http://localhost:8001/blogs/${id}`
-    // const {data: blog, isLoading, error} = useGetRequest({url})
     const history = useHistory()
 
     // redux
@@ -39,6 +37,9 @@ const BlogDetail = () => {
               <p>Written by { post.author }</p>
               <div>{ post.body }</div>
                 <button onClick={() => handleDelete(post.id)}>Delete</button>
+                <Link to={`/update/${post.id}`}>
+                    <button style={{marginLeft: 23}}>Update</button>
+                </Link>
             </article>
         )}
     </div>
