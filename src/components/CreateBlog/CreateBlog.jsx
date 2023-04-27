@@ -1,31 +1,29 @@
 import { useState } from "react";
 import {useHistory} from "react-router-dom";
+import {createPostRequest} from "../../api";
+import {useDispatch, useSelector} from "react-redux";
+import {postsTypes} from "../../redux/actions/types";
 
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [author, setAuthor] = useState('mario');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const isLoading = useSelector((state) => state.postsReducer.isLoading);
+  const success = useSelector((state) => state.postsReducer.success);
 
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const blog = {title, body, author}
     console.log(blog)
-    const headers = { 'Content-Type': 'application/json' }
-    const options = {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(blog)
+    createPostRequest(dispatch, blog)
+    if (success) {
+        dispatch({type: postsTypes.GET_POSTS_RESET})
     }
-    setIsLoading(true)
-    fetch("http://localhost:8001/blogs", options)
-        .then(() => {
-          console.log("new blog added")
-          setIsLoading(false)
-          history.push("/")
-        })
+    history.push("/")
   }
 
   return (
@@ -41,10 +39,10 @@ const CreateBlog = () => {
         />
         <label>Blog body:</label>
         <textarea
-          required
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-        ></textarea>
+    required
+    value={body}
+    onChange={(e) => setBody(e.target.value)}
+    />
         <label>Blog author:</label>
         <select
           value={author}

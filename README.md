@@ -18,6 +18,6 @@ You may also see any lint errors in the console.
 
 ## For testing API, run command: 
 ```
-npx json-server --watch data/db.json --port 8000
+npx json-server --watch data/db.json --port 8001
 ```
 #### This will run api on url "localhost:8000/blogs"
