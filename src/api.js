@@ -1,10 +1,11 @@
 import {
+  createPost, createPostError, createPostSuccess,
   deletePost, deletePostSuccess,
   getPostDetail, getPostDetailError,
   getPostDetailSuccess,
   getPosts,
   getPostsError,
-  getPostsSuccess,
+  getPostsSuccess, postsTypes,
 } from "./redux/actions/types";
 
 const BASE_API_URL = process.env.REACT_APP_BASE_URL
@@ -39,17 +40,18 @@ export const deletePostRequest = (dispatch, id) => {
       .catch((error) => dispatch(getPostDetailError(error)));
 };
 
-export const createPostRequest = (dispatch) => {
-  dispatch(deletePost());
+export const createPostRequest = (dispatch, data) => {
+  dispatch({type: postsTypes.CREATE_POST});
   const headers = { 'Content-Type': 'application/json' }
   const options = {
     method: "POST",
     headers: headers,
+    body: JSON.stringify(data)
   }
   fetch(`${BASE_API_URL}/blogs/`, options)
       .then((response) => response.json())
-      .then((data) => dispatch(deletePostSuccess()))
-      .catch((error) => dispatch(getPostDetailError(error)));
+      .then((data) => dispatch(createPostSuccess(data)))
+      .catch((error) => dispatch(createPostError(error)));
 };
 
 // export const fetchPosts = () => {

@@ -58,12 +58,13 @@ export const deletePostError = (error) => ({
   payload: error,
 });
 
-export const createPost = () => ({
-    type: postsTypes.GET_POST_DETAIL,
-});
+// export const createPost = () => ({
+//     type: postsTypes.GET_POST_DETAIL,
+// });
 
-export const createPostSuccess = () => ({
+export const createPostSuccess = (post) => ({
     type: postsTypes.GET_POST_DETAIL_SUCCESS,
+    payload: post
 });
 
 export const createPostError = (error) => ({

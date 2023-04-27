@@ -22,17 +22,6 @@ const BlogDetail = () => {
     }, []);
 
     const handleDelete = (id) => {
-        // const url = `http://localhost:8001/blogs/${id}`
-        // const headers = { 'Content-Type': 'application/json' }
-        // const options = {
-        //   method: "DELETE",
-        //   headers: headers,
-        // }
-        // fetch(url, options)
-        // .then(() => {
-        //   console.log("blog deleted")
-        //     history.push("/")
-        // })
         deletePostRequest(dispatch, id)
         if (success) {
             dispatch({type: postsTypes.GET_POSTS_RESET})

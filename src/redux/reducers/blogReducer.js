@@ -17,7 +17,7 @@ export const postsReducer = (state = initialState, action) => {
         case postsTypes.GET_POSTS_ERROR:
             return {...state, isLoading: false, posts: null, error: action.payload}
         case postsTypes.GET_POSTS_RESET:
-            return {...state, isLoading: false}
+            return {...state, isLoading: false, success: false, error: ''}
 
         case postsTypes.GET_POST_DETAIL:
             return {...state, isLoading: true}
@@ -31,6 +31,13 @@ export const postsReducer = (state = initialState, action) => {
         case postsTypes.DELETE_POST_SUCCESS:
             return {...state, isLoading: false, error: '', success: true}
         case postsTypes.DELETE_POST_ERROR:
+            return {...state, isLoading: false, error: action.payload, success: false}
+
+        case postsTypes.CREATE_POST:
+            return {...state, isLoading: true}
+        case postsTypes.CREATE_POST_SUCCESS:
+            return {...state, isLoading: false, error: '', success: true, posts: [...state.posts, action.payload]}
+        case postsTypes.CREATE_POST_ERROR:
             return {...state, isLoading: false, error: action.payload, success: false}
         default: return state
     }
