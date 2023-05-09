@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import {configureStore} from '@reduxjs/toolkit';
 import rootReducer from './reducers';
 
 export default configureStore({
@@ -7,7 +7,6 @@ export default configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
-})
-
+});
 
 

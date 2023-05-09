@@ -4,7 +4,7 @@ import {createPostRequest} from '../../api';
 import {useDispatch, useSelector} from 'react-redux';
 import {postsTypes} from '../../redux/actions/types';
 
-const CreateBlog = () => {
+const SignUp = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [author, setAuthor] = useState('mario');
@@ -28,7 +28,7 @@ const CreateBlog = () => {
 
   return (
     <div className="create">
-      <h2>Add a New Blog</h2>
+      <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <label>Blog title:</label>
         <input
@@ -58,4 +58,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog;
+export default SignUp;
