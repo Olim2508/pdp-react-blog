@@ -1,8 +1,8 @@
 import {useHistory, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
-import {createPostRequest, getPostDetailRequest, updatePostRequest} from '../../api';
-import {postsTypes} from '../../redux/actions/types';
+import {getPostDetailRequest, updatePostRequest} from '../../api';
+import {postsTypes} from '../../redux/actions/blogActions';
 
 const BlogUpdate = () => {
   const {id} = useParams();

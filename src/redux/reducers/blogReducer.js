@@ -1,4 +1,4 @@
-import {postsTypes} from '../actions/types';
+import {postsTypes} from '../actions/blogActions';
 
 const initialState = {
   isLoading: false,
@@ -38,19 +38,15 @@ export const postsReducer = (state = initialState, action) => {
     case postsTypes.CREATE_POST:
       return {...state, isLoading: true};
     case postsTypes.CREATE_POST_SUCCESS:
-      // eslint-disable-next-line max-len
       return {...state, isLoading: false, error: '', success: true, posts: [...state.posts, action.payload]};
     case postsTypes.CREATE_POST_ERROR:
-      // eslint-disable-next-line max-len
       return {...state, isLoading: false, error: action.payload, success: false};
 
     case postsTypes.UPDATE_POST:
       return {...state, isLoading: true};
     case postsTypes.UPDATE_POST_SUCCESS:
-      // eslint-disable-next-line max-len
       return {...state, isLoading: false, error: '', success: true, post: action.payload};
     case postsTypes.UPDATE_POST_ERROR:
-      // eslint-disable-next-line max-len
       return {...state, isLoading: false, error: action.payload, success: false};
     default: return state;
   }

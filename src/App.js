@@ -6,6 +6,7 @@ import BlogDetail from './components/BlogDetail';
 import React from 'react';
 import BlogUpdate from './components/BlogUpdate';
 import SignUp from './components/SignUp';
+import LogIn from './components/LogIn';
 
 
 // eslint-disable-next-line require-jsdoc
@@ -31,6 +32,9 @@ function App() {
               </Route>
               <Route path={'/sign-up/'}>
                 <SignUp/>
+              </Route>
+              <Route path={'/log-in/'}>
+                <LogIn/>
               </Route>
               {/* <Route path="*">*/}
               {/*    <Index/>*/}

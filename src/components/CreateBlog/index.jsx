@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {createPostRequest} from '../../api';
 import {useDispatch, useSelector} from 'react-redux';
-import {postsTypes} from '../../redux/actions/types';
+import {postsTypes} from '../../redux/actions/blogActions';
 
 const CreateBlog = () => {
   const [title, setTitle] = useState('');

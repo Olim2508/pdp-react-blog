@@ -1,12 +1,14 @@
 import {
-  createPost, createPostError, createPostSuccess,
+  createPostError, createPostSuccess,
   deletePost, deletePostSuccess,
   getPostDetail, getPostDetailError,
   getPostDetailSuccess,
   getPosts,
   getPostsError,
   getPostsSuccess, postsTypes, updatePostError, updatePostSuccess,
-} from './redux/actions/types';
+} from './redux/actions/blogActions';
+import {authTypes} from './redux/actions/authActions';
+import axios from 'axios';
 
 const BASE_API_URL = process.env.REACT_APP_BASE_URL;
 
@@ -67,6 +69,30 @@ export const updatePostRequest = (dispatch, id, data) => {
       .then((data) => dispatch(updatePostSuccess(data)))
       .catch((error) => dispatch(updatePostError(error)));
 };
+
+
+export const signUp = (data) => async (dispatch) => {
+  try {
+    const response = await axios.post('http://localhost:8000/auth/sign-up/', {...data});
+    dispatch({type: authTypes.SIGN_UP_SUCCESS, payload: response.data});
+  } catch (error) {
+    dispatch({type: authTypes.SIGN_UP_ERROR, payload: error.response.data});
+  }
+};
+
+// export const signUp = (dispatch, data) => {
+//   dispatch({type: authTypes.SIGN_UP});
+//   const headers = {'Content-Type': 'application/json'};
+//   const options = {
+//     method: 'POST',
+//     headers: headers,
+//     body: JSON.stringify(data),
+//   };
+//   fetch(`${BASE_API_URL}/blogs/`, options)
+//       .then((response) => response.json())
+//       .then((data) => dispatch(signUpSuccess(data)))
+//       .catch((error) => dispatch(signUpError(error)));
+// };
 
 // export const fetchPosts = () => {
 //   return (dispatch) => {
