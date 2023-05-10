@@ -1,8 +1,8 @@
-import { useState } from "react";
-import {useHistory} from "react-router-dom";
-import {createPostRequest} from "../../api";
-import {useDispatch, useSelector} from "react-redux";
-import {postsTypes} from "../../redux/actions/types";
+import {useState} from 'react';
+import {useHistory} from 'react-router-dom';
+import {createPostRequest} from '../../api';
+import {useDispatch, useSelector} from 'react-redux';
+import {postsTypes} from '../../redux/actions/blogActions';
 
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
@@ -12,22 +12,22 @@ const CreateBlog = () => {
   const isLoading = useSelector((state) => state.postsReducer.isLoading);
   const success = useSelector((state) => state.postsReducer.success);
 
-  const history = useHistory()
-  const dispatch = useDispatch()
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    const blog = {title, body, author}
-    console.log(blog)
-    createPostRequest(dispatch, blog)
+    e.preventDefault();
+    const blog = {title, body, author};
+    console.log(blog);
+    createPostRequest(dispatch, blog);
     if (success) {
-        dispatch({type: postsTypes.GET_POSTS_RESET})
+      dispatch({type: postsTypes.GET_POSTS_RESET});
     }
-    history.push("/")
-  }
+    history.push('/');
+  };
 
   return (
-          <div className="create">
+    <div className="create">
       <h2>Add a New Blog</h2>
       <form onSubmit={handleSubmit}>
         <label>Blog title:</label>
@@ -39,10 +39,10 @@ const CreateBlog = () => {
         />
         <label>Blog body:</label>
         <textarea
-    required
-    value={body}
-    onChange={(e) => setBody(e.target.value)}
-    />
+          required
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+        />
         <label>Blog author:</label>
         <select
           value={author}
@@ -56,6 +56,6 @@ const CreateBlog = () => {
       </form>
     </div>
   );
-}
+};
 
 export default CreateBlog;
