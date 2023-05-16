@@ -1,24 +1,29 @@
-import {useState} from 'react';
-import {signUp} from '../../api';
+import {useEffect, useState} from 'react';
+import {logIn} from '../../api';
 import {useDispatch, useSelector} from 'react-redux';
-import Modal from '../Modal';
+import {authTypes} from '../../redux/actions/authActions';
+import {useHistory} from 'react-router-dom';
 
 const LogIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const success = useSelector((state) => state.authReducer.success);
 
-  // const getFieldError = (fieldName) => {
-  //   if (error) {
-  //     if (fieldName in error) {
-  //       return error[fieldName][0];
-  //     }
-  //   }
-  //   return null;
-  // };
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (success) {
+      dispatch({type: authTypes.LOGIN_RESET});
+      history.push('/');
+    }
+  }, [success]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('clicked');
+    const data = {email, password};
+    dispatch(logIn(data));
   };
 
   return (
