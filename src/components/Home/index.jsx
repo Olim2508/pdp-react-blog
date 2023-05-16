@@ -4,14 +4,11 @@ import {getPostsRequest} from '../../api';
 import BlogList from '../BlogList';
 
 const Home = () => {
-  // const url = "http://localhost:8001/blogs"
-  // const {data, isLoading, error} = useGetRequest({url})
-
-  // with redux
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.postsReducer.posts);
   const isLoading = useSelector((state) => state.postsReducer.isLoading);
   const error = useSelector((state) => state.postsReducer.error);
+  const isAuthenticated = useSelector((state) => state.authReducer.isAuthenticated);
 
   useEffect(() => {
     getPostsRequest(dispatch);

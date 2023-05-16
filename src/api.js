@@ -1,16 +1,31 @@
 import {
-  createPostError, createPostSuccess,
-  deletePost, deletePostSuccess,
-  getPostDetail, getPostDetailError,
+  createPostError,
+  createPostSuccess,
+  deletePost,
+  deletePostSuccess,
+  getPostDetail,
+  getPostDetailError,
   getPostDetailSuccess,
   getPosts,
   getPostsError,
-  getPostsSuccess, postsTypes, updatePostError, updatePostSuccess,
+  getPostsSuccess,
+  postsTypes,
+  updatePostError,
+  updatePostSuccess,
 } from './redux/actions/blogActions';
-import {authTypes} from './redux/actions/authActions';
+import {authTypes, logInError, logInSuccess} from './redux/actions/authActions';
 import axios from 'axios';
 
 const BASE_API_URL = process.env.REACT_APP_BASE_URL;
+const BASE_SERVER_URL = process.env.REACT_APP_SERVER_URL;
+
+export const saveToken = (token) => {
+  localStorage.setItem('token', token);
+};
+
+export const getToken = () => {
+  return localStorage.getItem('token');
+};
 
 export const getPostsRequest = (dispatch) => {
   dispatch(getPosts());
@@ -73,12 +88,32 @@ export const updatePostRequest = (dispatch, id, data) => {
 
 export const signUp = (data) => async (dispatch) => {
   try {
-    const response = await axios.post('http://localhost:8000/auth/sign-up/', {...data});
+    const response = await axios.post(`${BASE_SERVER_URL}/auth/sign-up/`, {...data});
     dispatch({type: authTypes.SIGN_UP_SUCCESS, payload: response.data});
   } catch (error) {
     dispatch({type: authTypes.SIGN_UP_ERROR, payload: error.response.data});
   }
 };
+
+export const logIn = (data) => async (dispatch) => {
+  try {
+    const response = await axios.post(`${BASE_SERVER_URL}/auth/sign-in/`, {...data});
+    dispatch(logInSuccess(response.data));
+  } catch (error) {
+    console.log('error on login---', error);
+    dispatch(logInError(error.response.data));
+  }
+};
+
+export const logOut = () => async (dispatch) => {
+  try {
+    await axios.post(`${BASE_SERVER_URL}/auth/log-out/`);
+    dispatch({type: authTypes.LOG_OUT});
+  } catch (error) {
+    console.log('error on logout---', error.response);
+  }
+};
+
 
 // export const signUp = (dispatch, data) => {
 //   dispatch({type: authTypes.SIGN_UP});

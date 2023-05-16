@@ -1,8 +1,9 @@
-import {useState} from 'react';
-import {signUp} from '../../api';
+import {useEffect, useState} from 'react';
+import {getPostDetailRequest, signUp} from '../../api';
 import {useDispatch, useSelector} from 'react-redux';
 import Modal from '../Modal';
 import {useHistory} from 'react-router-dom';
+import {authTypes} from '../../redux/actions/authActions';
 
 const SignUp = () => {
   const [first_name, setFirstName] = useState('');
@@ -10,10 +11,8 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
-  const [showModal, setShowModal] = useState(false);
 
   const isLoading = useSelector((state) => state.authReducer.isLoading);
-  // const user = useSelector((state) => state.authReducer.user);
   const success = useSelector((state) => state.authReducer.success);
   const error = useSelector((state) => state.authReducer.error);
 
@@ -30,14 +29,17 @@ const SignUp = () => {
     return null;
   };
 
+  useEffect(() => {
+    if (success) {
+      dispatch({type: authTypes.SIGN_UP_RESET});
+      history.push('/log-in');
+    }
+  }, [success]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const user = {first_name, last_name, email, password1, password2};
     dispatch(signUp(user));
-    if (success) {
-      console.log(success);
-      history.push('/log-in');
-    }
   };
 
   return (
