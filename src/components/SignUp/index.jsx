@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Modal from '../Modal';
 import {useHistory} from 'react-router-dom';
 import {authTypes} from '../../redux/actions/authActions';
+import {getFieldError} from '../../utils/utils';
 
 const SignUp = () => {
   const [first_name, setFirstName] = useState('');
@@ -20,14 +21,6 @@ const SignUp = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const getFieldError = (fieldName) => {
-    if (error) {
-      if (fieldName in error) {
-        return error[fieldName][0];
-      }
-    }
-    return null;
-  };
 
   useEffect(() => {
     if (success) {
@@ -53,8 +46,8 @@ const SignUp = () => {
           value={first_name}
           onChange={(e) => setFirstName(e.target.value)}
         />
-        {getFieldError('first_name') && (
-          <div className="error">{getFieldError('first_name')}</div>
+        {getFieldError('first_name', error) && (
+          <div className="error">{getFieldError('first_name', error)}</div>
         )}
         <label>Last name</label>
         <input
@@ -63,8 +56,8 @@ const SignUp = () => {
           value={last_name}
           onChange={(e) => setLastName(e.target.value)}
         />
-        {getFieldError('last_name') && (
-          <div className="error">{getFieldError('last_name')}</div>
+        {getFieldError('last_name', error) && (
+          <div className="error">{getFieldError('last_name', error)}</div>
         )}
         <label>Email</label>
         <input
@@ -73,8 +66,8 @@ const SignUp = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        {getFieldError('email') && (
-          <div className="error">{getFieldError('email')}</div>
+        {getFieldError('email', error) && (
+          <div className="error">{getFieldError('email', error)}</div>
         )}
         <label>Password</label>
         <input
@@ -83,8 +76,8 @@ const SignUp = () => {
           value={password1}
           onChange={(e) => setPassword1(e.target.value)}
         />
-        {getFieldError('password1') && (
-          <div className="error">{getFieldError('password1')}</div>
+        {getFieldError('password1', error) && (
+          <div className="error">{getFieldError('password1', error)}</div>
         )}
         <label>Confirm password</label>
         <input
@@ -93,12 +86,12 @@ const SignUp = () => {
           value={password2}
           onChange={(e) => setPassword2(e.target.value)}
         />
-        {getFieldError('password2') && (
-          <div className="error">{getFieldError('password2')}</div>
+        {getFieldError('password2', error) && (
+          <div className="error">{getFieldError('password2', error)}</div>
         )}
 
-        {getFieldError('non_field_errors') && (
-          <div className="error">{getFieldError('non_field_errors')}</div>
+        {getFieldError('non_field_errors', error) && (
+          <div className="error">{getFieldError('non_field_errors', error)}</div>
         )}
         {isLoading ? <button disabled style={{marginTop: '20px'}}>Signing up...</button> : <button>Sign Up</button>}
       </form>
