@@ -142,3 +142,9 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.user-header {
+    color: red;
+  font-size: 20px;
+  text-align: right;
+}

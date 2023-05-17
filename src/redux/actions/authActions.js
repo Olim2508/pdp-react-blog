@@ -1,4 +1,4 @@
-import {saveToken} from '../../api';
+import {setAccessToken, setRefreshToken} from '../../api';
 
 export const authTypes = {
   SIGN_UP: 'SIGN_UP',
@@ -12,6 +12,11 @@ export const authTypes = {
   LOGIN_RESET: 'LOGIN_RESET',
 
   LOG_OUT: 'LOG_OUT',
+
+  GET_USER_ME: 'GET_USER_ME',
+  GET_USER_ME_SUCCESS: 'GET_USER_ME_SUCCESS',
+  GET_USER_ME_ERROR: 'GET_USER_ME_ERROR',
+  GET_USER_ME_RESET: 'GET_USER_ME_RESET',
 };
 
 
@@ -28,10 +33,11 @@ export const signUpError = (error) => ({
 
 export const logInSuccess = (data) => {
   const accessToken = data.access_token;
-  saveToken(accessToken);
+  const refreshToken = data.refresh_token;
+  setAccessToken(accessToken);
+  setRefreshToken(refreshToken);
   return {
     type: authTypes.LOGIN_SUCCESS,
-    payload: accessToken,
   };
 };
 
@@ -43,7 +49,8 @@ export const logInError = (error) => {
   };
 };
 
-// export const logInSuccess = (data) => ({
-//   type: authTypes.SIGN_UP_SUCCESS,
-//   payload: data,
-// });
+export const logOut = () => {
+  return {
+    type: authTypes.LOG_OUT,
+  };
+};
