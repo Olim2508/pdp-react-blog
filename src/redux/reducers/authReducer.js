@@ -1,7 +1,7 @@
 import {authTypes} from '../actions/authActions';
-import {getToken} from '../../api';
+import {getAccessToken} from '../../api';
 
-const token = getToken();
+const token = getAccessToken();
 
 const initialState = {
   user: null,
@@ -9,7 +9,6 @@ const initialState = {
   isLoading: false,
   success: false,
   isAuthenticated: !!token,
-  token: null,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -49,7 +48,6 @@ export const authReducer = (state = initialState, action) => {
         error: null,
         isLoading: false,
         success: true,
-        token: action.payload,
         isAuthenticated: true,
       };
     case authTypes.LOGIN_ERROR:
@@ -66,11 +64,20 @@ export const authReducer = (state = initialState, action) => {
         success: false,
       };
     case authTypes.LOG_OUT:
-      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       return {
         ...state,
         isAuthenticated: false,
       };
+    case authTypes.GET_USER_ME:
+      return {...state, isLoading: false};
+    case authTypes.GET_USER_ME_SUCCESS:
+      return {...state, isLoading: false, user: action.payload, error: '', success: true};
+    case authTypes.GET_USER_ME_ERROR:
+      return {...state, isLoading: false, user: null, error: action.payload};
+    case authTypes.GET_USER_ME_RESET:
+      return {...state, isLoading: false, success: false, error: ''};
     default:
       return state;
   }
