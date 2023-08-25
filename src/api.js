@@ -15,8 +15,10 @@ import {
 } from './redux/actions/blogActions';
 import {authTypes, logInError, logInSuccess} from './redux/actions/authActions';
 import {axInst} from './axiosInterceptors';
+import {getCategories, getCategoriesError, getCategoriesSuccess} from './redux/actions/categoryActions';
 
 const BASE_API_URL = process.env.REACT_APP_BASE_URL;
+const FASTAPI_API_URL = process.env.REACT_FASTAPI_SERVER_URL;
 
 
 export const setAccessToken = (token) => {
@@ -123,6 +125,26 @@ export const logOut = () => async (dispatch) => {
 };
 
 export const getUserMe = () => async (dispatch) => {
+  try {
+    const response = await axInst.get(`/auth/user/me`);
+    dispatch({type: authTypes.GET_USER_ME_SUCCESS, payload: response.data});
+  } catch (error) {
+    console.log('error getUserMe', error);
+    dispatch({type: authTypes.GET_USER_ME_ERROR, payload: error.response.data});
+  }
+};
+
+
+export const getCategoriesRequest = (dispatch) => {
+  console.log('aa');
+  dispatch(getCategories());
+  fetch(`${FASTAPI_API_URL}/category/`)
+      .then((response) => response.json())
+      .then((data) => dispatch(getCategoriesSuccess(data)))
+      .catch((error) => dispatch(getCategoriesError(error)));
+};
+
+export const getCategoriesRequestAxios = () => async (dispatch) => {
   try {
     const response = await axInst.get(`/auth/user/me`);
     dispatch({type: authTypes.GET_USER_ME_SUCCESS, payload: response.data});

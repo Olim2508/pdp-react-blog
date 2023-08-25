@@ -1,7 +1,8 @@
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPostsRequest, getUserMe} from '../../api';
-import BlogList from '../BlogList';
+import BlogList from '../../components/BlogList';
+import {Link} from 'react-router-dom';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const Home = () => {
 
   return (
     <div className="home">
+      <Link to={'/categories'}>Categories</Link>
       {user && isAuthenticated && <h1 className={'user-header'}>Hello {user.email}</h1>}
       <h2>All posts</h2>
       {error && <p>{error}</p>}

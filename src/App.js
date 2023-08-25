@@ -1,12 +1,13 @@
 import Navbar from './components/Navbar';
-import Home from './components/Home';
+import Home from './pages/Home';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import CreateBlog from './components/CreateBlog';
+import CreateBlog from './pages/CreateBlog';
 import BlogDetail from './components/BlogDetail';
 import React from 'react';
 import BlogUpdate from './components/BlogUpdate';
-import SignUp from './components/SignUp';
-import LogIn from './components/LogIn';
+import SignUp from './pages/SignUp';
+import LogIn from './pages/LogIn';
+import CategoryList from './pages/CategoryList';
 
 
 // eslint-disable-next-line require-jsdoc
@@ -35,6 +36,9 @@ function App() {
               </Route>
               <Route path={'/log-in/'}>
                 <LogIn/>
+              </Route>
+              <Route path={'/categories/'}>
+                <CategoryList/>
               </Route>
               {/* <Route path="*">*/}
               {/*    <Index/>*/}

@@ -6,7 +6,6 @@ import {logOut} from '../../api';
 const Navbar = () => {
   const dispatch = useDispatch();
 
-
   const logOutHandler = () => {
     console.log('logged out');
     dispatch(logOut());
