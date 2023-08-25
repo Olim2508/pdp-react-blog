@@ -50,10 +50,10 @@ const axiosResponseErrorInterceptor = (error) => {
             return handleError(error);
           });
     } else {
-      return handleError(error);
+      return Promise.reject(error);
     }
   }
-  return handleError(error);
+  return Promise.reject(error);
 };
 
 
