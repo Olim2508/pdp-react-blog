@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {getPostDetailRequest, signUp} from '../../api';
 import {useDispatch, useSelector} from 'react-redux';
-import Modal from '../Modal';
+import Modal from '../../components/Modal';
 import {useHistory} from 'react-router-dom';
 import {authTypes} from '../../redux/actions/authActions';
 import {getFieldError} from '../../utils/utils';

@@ -19,11 +19,11 @@ const handleError = (error) => {
   return Promise.reject(error);
 };
 
-const axiosRequestInterceptor = (config) => {
+const axiosRequestInterceptor = (request) => {
   if (getAccessToken()) {
-    config.headers['Authorization'] = `Bearer ${getAccessToken()}`;
+    request.headers['Authorization'] = `Bearer ${getAccessToken()}`;
   }
-  return config;
+  return request;
 };
 
 const axiosResponseInterceptor = (response) => {
@@ -32,10 +32,9 @@ const axiosResponseInterceptor = (response) => {
 
 const axiosResponseErrorInterceptor = (error) => {
   const originalRequest = error.config;
-  if (error.response.status === 401 && !originalRequest._retry) {
-    originalRequest._retry = false;
+  console.log('error', error, typeof error);
+  if (error.response.status === 401 && error.config.url !== REFRESH_URL) {
     const refresh = getRefreshToken();
-    // console.log('refresh---', refresh);
     if (refresh) {
       return axInst
           .post(`${REFRESH_URL}`, {refresh})
@@ -51,10 +50,10 @@ const axiosResponseErrorInterceptor = (error) => {
             return handleError(error);
           });
     } else {
-      return handleError(error);
+      return Promise.reject(error);
     }
   }
-  return handleError(error);
+  return Promise.reject(error);
 };
 
 
