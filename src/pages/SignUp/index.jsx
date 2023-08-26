@@ -10,8 +10,7 @@ const SignUp = () => {
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [password1, setPassword1] = useState('');
-  const [password2, setPassword2] = useState('');
+  const [password, setPassword] = useState('');
 
   const isLoading = useSelector((state) => state.authReducer.isLoading);
   const success = useSelector((state) => state.authReducer.success);
@@ -31,7 +30,8 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user = {first_name, last_name, email, password1, password2};
+    const full_name = `${first_name} ${last_name}`;
+    const user = {full_name, email, password};
     dispatch(signUp(user));
   };
 
@@ -73,23 +73,12 @@ const SignUp = () => {
         <input
           type="password"
           required
-          value={password1}
-          onChange={(e) => setPassword1(e.target.value)}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        {getFieldError('password1', error) && (
-          <div className="error">{getFieldError('password1', error)}</div>
+        {getFieldError('password', error) && (
+          <div className="error">{getFieldError('password', error)}</div>
         )}
-        <label>Confirm password</label>
-        <input
-          type="password"
-          required
-          value={password2}
-          onChange={(e) => setPassword2(e.target.value)}
-        />
-        {getFieldError('password2', error) && (
-          <div className="error">{getFieldError('password2', error)}</div>
-        )}
-
         {getFieldError('non_field_errors', error) && (
           <div className="error">{getFieldError('non_field_errors', error)}</div>
         )}

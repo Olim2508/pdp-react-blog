@@ -21,6 +21,7 @@ function App() {
             <div className={'content'}>
               <Route exact path={'/'}>
                 <Home/>
+                {/* <CategoryList/>*/}
               </Route>
               <Route path={'/create'}>
                 <CreateBlog/>

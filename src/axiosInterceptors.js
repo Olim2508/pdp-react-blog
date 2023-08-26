@@ -2,11 +2,12 @@ import axios from 'axios';
 import {getAccessToken, getRefreshToken, setAccessToken, setRefreshToken} from './api';
 
 const BASE_SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const FASTAPI_API_URL = process.env.REACT_APP_FASTAPI_SERVER_URL;
 
 const REFRESH_URL = '/auth/api/token/refresh/';
 
 export const axInst = axios.create({
-  baseURL: `${BASE_SERVER_URL}`,
+  baseURL: `${FASTAPI_API_URL}`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -32,7 +33,7 @@ const axiosResponseInterceptor = (response) => {
 
 const axiosResponseErrorInterceptor = (error) => {
   const originalRequest = error.config;
-  console.log('error', error, typeof error);
+  console.log('error in interceptor', error);
   if (error.response.status === 401 && error.config.url !== REFRESH_URL) {
     const refresh = getRefreshToken();
     if (refresh) {
@@ -41,7 +42,6 @@ const axiosResponseErrorInterceptor = (error) => {
           .then((response) => {
             setAccessToken(response.data.access);
             setRefreshToken(response.data.refresh);
-            // console.log('saved new access and refresh token');
             // Retry the original request with the new access token.
             response.config.headers['Authorization'] = `Bearer ${response.data.access}`;
             return axInst(originalRequest);

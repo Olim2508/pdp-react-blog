@@ -18,7 +18,6 @@ import {axInst} from './axiosInterceptors';
 import {getCategories, getCategoriesError, getCategoriesSuccess} from './redux/actions/categoryActions';
 
 const BASE_API_URL = process.env.REACT_APP_BASE_URL;
-const FASTAPI_API_URL = process.env.REACT_FASTAPI_SERVER_URL;
 
 
 export const setAccessToken = (token) => {
@@ -98,7 +97,7 @@ export const updatePostRequest = (dispatch, id, data) => {
 
 export const signUp = (data) => async (dispatch) => {
   try {
-    const response = await axInst.post(`/auth/sign-up/`, {...data});
+    const response = await axInst.post(`/user/register`, {...data});
     dispatch({type: authTypes.SIGN_UP_SUCCESS, payload: response.data});
   } catch (error) {
     dispatch({type: authTypes.SIGN_UP_ERROR, payload: error.response.data});
@@ -107,7 +106,17 @@ export const signUp = (data) => async (dispatch) => {
 
 export const logIn = (data) => async (dispatch) => {
   try {
-    const response = await axInst.post(`/auth/sign-in/`, {...data});
+    const formData = new FormData();
+    // eslint-disable-next-line guard-for-in
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+
+    const response = await axInst.post(`/login/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     dispatch(logInSuccess(response.data));
   } catch (error) {
     console.log('error on login---', error);
@@ -116,17 +125,19 @@ export const logIn = (data) => async (dispatch) => {
 };
 
 export const logOut = () => async (dispatch) => {
-  try {
-    await axInst.post(`/auth/log-out/`);
-    dispatch({type: authTypes.LOG_OUT});
-  } catch (error) {
-    console.log('error on logout---', error.response);
-  }
+  dispatch({type: authTypes.LOG_OUT});
+  // todo need to create log out api and call that api
+  // try {
+  //   await axInst.post(`/auth/log-out/`);
+  //   dispatch({type: authTypes.LOG_OUT});
+  // } catch (error) {
+  //   console.log('error on logout---', error.response);
+  // }
 };
 
 export const getUserMe = () => async (dispatch) => {
   try {
-    const response = await axInst.get(`/auth/user/me`);
+    const response = await axInst.get(`/user/me`);
     dispatch({type: authTypes.GET_USER_ME_SUCCESS, payload: response.data});
   } catch (error) {
     console.log('error getUserMe', error);
@@ -134,22 +145,14 @@ export const getUserMe = () => async (dispatch) => {
   }
 };
 
-
-export const getCategoriesRequest = (dispatch) => {
-  console.log('aa');
-  dispatch(getCategories());
-  fetch(`${FASTAPI_API_URL}/category/`)
-      .then((response) => response.json())
-      .then((data) => dispatch(getCategoriesSuccess(data)))
-      .catch((error) => dispatch(getCategoriesError(error)));
-};
-
 export const getCategoriesRequestAxios = () => async (dispatch) => {
+  console.log('----');
   try {
-    const response = await axInst.get(`/auth/user/me`);
-    dispatch({type: authTypes.GET_USER_ME_SUCCESS, payload: response.data});
+    const response = await axInst.get(`/category`);
+    console.log('response', response);
+    dispatch(getCategoriesSuccess(response.data));
   } catch (error) {
-    console.log('error getUserMe', error);
-    dispatch({type: authTypes.GET_USER_ME_ERROR, payload: error.response.data});
+    console.log('error getCategoriesRequestAxios', error);
+    dispatch(getCategoriesError(error));
   }
 };

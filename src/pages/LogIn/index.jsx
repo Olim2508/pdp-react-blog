@@ -25,7 +25,8 @@ const LogIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {email, password};
+    const data = {username: email, password};
+    console.log('data', data);
     dispatch(logIn(data));
   };
 

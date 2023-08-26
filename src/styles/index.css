@@ -24,11 +24,26 @@
   margin-left: 16px;
   text-decoration: none;
   padding: 6px;
-    cursor: pointer;
+  cursor: pointer;
 }
 .navbar a:hover {
   color: #f1356d;
 }
+
+.navbar button {
+  margin-left: 16px;
+  text-decoration: none;
+  padding: 6px;
+  cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 16px;
+}
+
+.navbar button:hover {
+  color: #f1356d;
+}
+
 .content {
   max-width: 800px;
   margin: 40px auto;
