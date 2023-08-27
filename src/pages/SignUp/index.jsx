@@ -10,11 +10,6 @@ import {authTypes} from '../../redux/actions/authActions';
 import {getFieldError} from '../../utils/utils';
 
 const SignUp = () => {
-  const [first_name, setFirstName] = useState('');
-  const [last_name, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   const isLoading = useSelector((state) => state.authReducer.isLoading);
   const success = useSelector((state) => state.authReducer.success);
   const error = useSelector((state) => state.authReducer.error);

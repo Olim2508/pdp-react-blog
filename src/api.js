@@ -146,7 +146,6 @@ export const getUserMe = () => async (dispatch) => {
 };
 
 export const getCategoriesRequestAxios = () => async (dispatch) => {
-  console.log('----');
   try {
     const response = await axInst.get(`/category`);
     console.log('response', response);
