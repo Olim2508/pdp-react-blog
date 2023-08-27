@@ -15,7 +15,14 @@ import {
 } from './redux/actions/blogActions';
 import {authTypes, logInError, logInSuccess} from './redux/actions/authActions';
 import {axInst} from './axiosInterceptors';
-import {getCategories, getCategoriesError, getCategoriesSuccess} from './redux/actions/categoryActions';
+import {
+  categoryTypes,
+  createCategoryError,
+  createCategorySuccess,
+  getCategories,
+  getCategoriesError,
+  getCategoriesSuccess,
+} from './redux/actions/categoryActions';
 
 const BASE_API_URL = process.env.REACT_APP_BASE_URL;
 
@@ -119,7 +126,6 @@ export const logIn = (data) => async (dispatch) => {
     });
     dispatch(logInSuccess(response.data));
   } catch (error) {
-    console.log('error on login---', error);
     dispatch(logInError(error.response.data));
   }
 };
@@ -140,18 +146,25 @@ export const getUserMe = () => async (dispatch) => {
     const response = await axInst.get(`/user/me`);
     dispatch({type: authTypes.GET_USER_ME_SUCCESS, payload: response.data});
   } catch (error) {
-    console.log('error getUserMe', error);
     dispatch({type: authTypes.GET_USER_ME_ERROR, payload: error.response.data});
   }
 };
 
-export const getCategoriesRequestAxios = () => async (dispatch) => {
+export const getCategoriesRequest = () => async (dispatch) => {
   try {
     const response = await axInst.get(`/category`);
-    console.log('response', response);
     dispatch(getCategoriesSuccess(response.data));
   } catch (error) {
-    console.log('error getCategoriesRequestAxios', error);
     dispatch(getCategoriesError(error));
+  }
+};
+
+export const createCategory = (data) => async (dispatch) => {
+  dispatch({type: categoryTypes.CREATE_CATEGORY});
+  try {
+    const response = await axInst.post(`/category/`, data);
+    dispatch(createCategorySuccess(response.data));
+  } catch (error) {
+    dispatch(createCategoryError(error.response.data));
   }
 };

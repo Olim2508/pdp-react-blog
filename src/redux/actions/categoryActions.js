@@ -36,6 +36,15 @@ export const getCategoriesError = (error) => ({
   payload: error,
 });
 
+export const createCategorySuccess = (post) => ({
+  type: categoryTypes.CREATE_CATEGORY_SUCCESS,
+  payload: post,
+});
+
+export const createCategoryError = (error) => ({
+  type: categoryTypes.CREATE_CATEGORY_ERROR,
+  payload: error,
+});
 
 // export const getPostDetail = () => ({
 //   type: categoryTypes.GET_CATEGORIES_RESET,
@@ -64,15 +73,6 @@ export const getCategoriesError = (error) => ({
 //   payload: error,
 // });
 //
-// export const createPostSuccess = (post) => ({
-//   type: postsTypes.GET_POST_DETAIL_SUCCESS,
-//   payload: post,
-// });
-//
-// export const createPostError = (error) => ({
-//   type: postsTypes.GET_POST_DETAIL_ERROR,
-//   payload: error,
-// });
 //
 // export const updatePostSuccess = (post) => ({
 //   type: postsTypes.UPDATE_POST_SUCCESS,

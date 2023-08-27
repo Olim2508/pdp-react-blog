@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCategoriesRequest, getCategoriesRequestAxios, getUserMe} from '../../api';
+import {getCategoriesRequest, getUserMe} from '../../api';
+import {Link} from 'react-router-dom';
 
 const CategoryList = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const CategoryList = () => {
   // const user = useSelector((state) => state.authReducer.user);
 
   useEffect(() => {
-    dispatch(getCategoriesRequestAxios());
+    dispatch(getCategoriesRequest());
   }, []);
   console.log('categories', categories);
 
@@ -25,9 +26,20 @@ const CategoryList = () => {
     <div className="home">
       {/* {user && isAuthenticated && <h1 className={'user-header'}>Hello {user.email}</h1>}*/}
       <h2>Categories</h2>
+      <Link to={'/category/create/'}>Create new category</Link>
       {error && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
-      {/* {posts && <BlogList blogs={posts} />}*/}
+      {categories && (
+        <div className="blog-list">
+          {categories.map((blog) => (
+            <div className="blog-preview" key={blog.id} >
+              {/* <Link to={`/blogs/${blog.id}`}>*/}
+              <h2>{ blog.title }</h2>
+              {/* </Link>*/}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

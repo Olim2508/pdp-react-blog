@@ -8,6 +8,7 @@ import BlogUpdate from './components/BlogUpdate';
 import SignUp from './pages/SignUp';
 import LogIn from './pages/LogIn';
 import CategoryList from './pages/CategoryList';
+import CategoryCreate from './pages/CategoryCreate';
 
 
 // eslint-disable-next-line require-jsdoc
@@ -40,6 +41,9 @@ function App() {
               </Route>
               <Route path={'/categories/'}>
                 <CategoryList/>
+              </Route>
+              <Route path={'/category/create'}>
+                <CategoryCreate/>
               </Route>
               {/* <Route path="*">*/}
               {/*    <Index/>*/}

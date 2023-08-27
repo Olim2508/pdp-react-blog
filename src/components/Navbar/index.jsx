@@ -12,7 +12,6 @@ const Navbar = () => {
   };
 
   const isAuthenticated = useSelector((state) => state.authReducer.isAuthenticated);
-  console.log(isAuthenticated);
   return (
     <nav className={'navbar'}>
       <h1>My Blog</h1>
