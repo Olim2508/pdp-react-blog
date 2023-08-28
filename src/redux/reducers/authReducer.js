@@ -8,7 +8,7 @@ const initialState = {
   error: null,
   isLoading: false,
   success: false,
-  isAuthenticated: !!token,
+  isAuthenticated: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -55,6 +55,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         error: action.payload,
         success: false,
+        isAuthenticated: false,
       };
     case authTypes.LOGIN_RESET:
       return {

@@ -6,7 +6,7 @@ import {logOut} from '../../api';
 const Navbar = () => {
   const dispatch = useDispatch();
 
-  const logOutHandler = () => {
+  const handleLogout = () => {
     console.log('logged out');
     dispatch(logOut());
   };
@@ -17,15 +17,18 @@ const Navbar = () => {
       <h1>My Blog</h1>
       <div className={'links'}>
         <Link to={'/'}>Home</Link>
+        <Link to={'/categories/'}>Categories</Link>
+
         {isAuthenticated ? (
                 <>
-                  <Link to={'/create'}>Create blog</Link>
-                  <a onClick={logOutHandler}>Log out</a>
+                  {/* <Link to={'/create'}>Create blog</Link>*/}
+                  <button onClick={handleLogout}>Log out</button>
                 </>
               ) : (
                 <>
                   <Link to={'/sign-up'}>Sign up</Link>
-                  <Link to={'/log-in'}>Log in</Link></>
+                  <Link to={'/log-in'}>Log in</Link>
+                </>
           )}
       </div>
     </nav>

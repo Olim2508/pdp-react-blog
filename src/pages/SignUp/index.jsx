@@ -3,16 +3,13 @@ import {getPostDetailRequest, signUp} from '../../api';
 import {useDispatch, useSelector} from 'react-redux';
 import Modal from '../../components/Modal';
 import {useHistory} from 'react-router-dom';
+import * as Yup from 'yup';
+import {Formik, Form, Field, ErrorMessage} from 'formik';
+
 import {authTypes} from '../../redux/actions/authActions';
 import {getFieldError} from '../../utils/utils';
 
 const SignUp = () => {
-  const [first_name, setFirstName] = useState('');
-  const [last_name, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password1, setPassword1] = useState('');
-  const [password2, setPassword2] = useState('');
-
   const isLoading = useSelector((state) => state.authReducer.isLoading);
   const success = useSelector((state) => state.authReducer.success);
   const error = useSelector((state) => state.authReducer.error);
@@ -20,6 +17,20 @@ const SignUp = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const initialValues = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+  };
+
+  const validationSchema = Yup.object({
+    first_name: Yup.string().required('First name is required'),
+    last_name: Yup.string().required('Last name is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string().required('Password is required'),
+  });
 
 
   useEffect(() => {
@@ -29,72 +40,50 @@ const SignUp = () => {
     }
   }, [success]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const user = {first_name, last_name, email, password1, password2};
+  const onSubmit = (values) => {
+    const full_name = `${values.first_name} ${values.last_name}`;
+    const user = {full_name, email: values.email, password: values.password};
     dispatch(signUp(user));
   };
 
   return (
     <div className="create">
       <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <label>First name</label>
-        <input
-          type="text"
-          required
-          value={first_name}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        {getFieldError('first_name', error) && (
-          <div className="error">{getFieldError('first_name', error)}</div>
-        )}
-        <label>Last name</label>
-        <input
-          type="text"
-          required
-          value={last_name}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-        {getFieldError('last_name', error) && (
-          <div className="error">{getFieldError('last_name', error)}</div>
-        )}
-        <label>Email</label>
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {getFieldError('email', error) && (
-          <div className="error">{getFieldError('email', error)}</div>
-        )}
-        <label>Password</label>
-        <input
-          type="password"
-          required
-          value={password1}
-          onChange={(e) => setPassword1(e.target.value)}
-        />
-        {getFieldError('password1', error) && (
-          <div className="error">{getFieldError('password1', error)}</div>
-        )}
-        <label>Confirm password</label>
-        <input
-          type="password"
-          required
-          value={password2}
-          onChange={(e) => setPassword2(e.target.value)}
-        />
-        {getFieldError('password2', error) && (
-          <div className="error">{getFieldError('password2', error)}</div>
-        )}
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        <Form>
+          <label>First name</label>
+          <Field type="text" name="first_name" />
+          <ErrorMessage name="first_name" component="div" className="error" />
 
-        {getFieldError('non_field_errors', error) && (
-          <div className="error">{getFieldError('non_field_errors', error)}</div>
-        )}
-        {isLoading ? <button disabled style={{marginTop: '20px'}}>Signing up...</button> : <button>Sign Up</button>}
-      </form>
+          <label>Last name</label>
+          <Field type="text" name="last_name" />
+          <ErrorMessage name="last_name" component="div" className="error" />
+
+          <label>Email</label>
+          <Field type="email" name="email" />
+          <ErrorMessage name="email" component="div" className="error" />
+
+          <label>Password</label>
+          <Field type="password" name="password" />
+          <ErrorMessage name="password" component="div" className="error" />
+
+          {getFieldError('non_field_errors', error) && (
+            <div className="error">{getFieldError('non_field_errors', error)}</div>
+          )}
+
+          {isLoading ? (
+            <button type="submit" disabled style={{marginTop: '20px'}}>
+              Signing up...
+            </button>
+          ) : (
+            <button type="submit">Sign Up</button>
+          )}
+        </Form>
+      </Formik>
     </div>
   );
 };

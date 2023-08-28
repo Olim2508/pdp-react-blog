@@ -1,9 +1,10 @@
 import {useEffect, useState} from 'react';
-import {logIn} from '../../api';
+import {createCategory, logIn} from '../../api';
 import {useDispatch, useSelector} from 'react-redux';
 import {authTypes} from '../../redux/actions/authActions';
 import {useHistory} from 'react-router-dom';
 import {getFieldError} from '../../utils/utils';
+import {ErrorMessage, Field, Form, Formik} from 'formik';
 
 const LogIn = () => {
   const [email, setEmail] = useState('');
@@ -15,6 +16,11 @@ const LogIn = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const initialValues = {
+    email: '',
+    password: '',
+  };
+
   useEffect(() => {
     if (success) {
       dispatch({type: authTypes.LOGIN_RESET});
@@ -23,35 +29,43 @@ const LogIn = () => {
   }, [success]);
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {email, password};
+  const onSubmit = (values) => {
+    const data = {username: values.email, password: values.password};
     dispatch(logIn(data));
+    history.push('/');
   };
 
   return (
     <div className="create">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {getFieldError('email', error) && (
-          <div className="error">{getFieldError('email', error)}</div>
-        )}
-        {isLoading ? <button disabled>Logging in...</button> : <button>Log In</button>}
-      </form>
+      <Formik
+        initialValues={initialValues}
+        // validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        <Form>
+
+          <label>Email</label>
+          <Field type="email" name="email" />
+          <ErrorMessage name="email" component="div" className="error" />
+
+          <label>Password</label>
+          <Field type="password" name="password" />
+          <ErrorMessage name="password" component="div" className="error" />
+
+          {getFieldError('non_field_errors', error) && (
+            <div className="error">{getFieldError('non_field_errors', error)}</div>
+          )}
+
+          {isLoading ? (
+            <button type="submit" disabled style={{marginTop: '20px'}}>
+              Logging in...
+            </button>
+          ) : (
+            <button type="submit">Log in</button>
+          )}
+        </Form>
+      </Formik>
     </div>
   );
 };
