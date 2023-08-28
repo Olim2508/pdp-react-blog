@@ -49,5 +49,10 @@
     "eslint": "^8.40.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.32.2"
+  },
+  "babel": {
+    "plugins": [
+      ["@babel/plugin-proposal-private-property-in-object", { "loose": true }]
+    ]
   }
 }
