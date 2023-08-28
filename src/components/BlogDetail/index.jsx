@@ -1,7 +1,7 @@
 import {Link, useHistory, useParams} from 'react-router-dom';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {deletePostRequest, getPostDetailRequest} from '../../api';
+import {deletePostRequest, getCategoriesRequest, getPostDetailRequest} from '../../api';
 import {postsTypes} from '../../redux/actions/blogActions';
 
 const BlogDetail = () => {
@@ -16,7 +16,7 @@ const BlogDetail = () => {
   const success = useSelector((state) => state.postsReducer.success);
 
   useEffect(() => {
-    getPostDetailRequest(dispatch, id);
+    dispatch(getPostDetailRequest(id));
   }, []);
 
   const handleDelete = (id) => {
@@ -34,8 +34,9 @@ const BlogDetail = () => {
       {post && (
         <article>
           <h2>{ post.title }</h2>
-          <p>Written by { post.author }</p>
-          <div>{ post.body }</div>
+          <p>Category: {post.category?.title}</p>
+          <p>Author: { post.author }</p>
+          <div>{ post.content }</div>
           <button onClick={() => handleDelete(post.id)}>Delete</button>
           <Link to={`/update/${post.id}`}>
             <button style={{marginLeft: 23}}>Update</button>

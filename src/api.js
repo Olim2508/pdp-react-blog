@@ -61,12 +61,22 @@ export const getPostsRequest = () => async (dispatch) => {
   }
 };
 
-export const getPostDetailRequest = (dispatch, id) => {
+// export const getPostDetailRequest = (dispatch, id) => {
+//   dispatch(getPostDetail());
+//   fetch(`${BASE_API_URL}/blogs/${id}`)
+//       .then((response) => response.json())
+//       .then((data) => dispatch(getPostDetailSuccess(data)))
+//       .catch((error) => dispatch(getPostDetailError(error)));
+// };
+
+export const getPostDetailRequest = (id) => async (dispatch) => {
   dispatch(getPostDetail());
-  fetch(`${BASE_API_URL}/blogs/${id}`)
-      .then((response) => response.json())
-      .then((data) => dispatch(getPostDetailSuccess(data)))
-      .catch((error) => dispatch(getPostDetailError(error)));
+  try {
+    const response = await axInst.get(`/post/${id}`);
+    dispatch(getPostDetailSuccess(response.data));
+  } catch (error) {
+    dispatch(getPostDetailError(error));
+  }
 };
 
 export const deletePostRequest = (dispatch, id) => {
