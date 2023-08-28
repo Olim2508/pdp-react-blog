@@ -112,6 +112,8 @@ export const signUp = (data) => async (dispatch) => {
 };
 
 export const logIn = (data) => async (dispatch) => {
+  console.log('login data', data);
+  dispatch({type: authTypes.LOGIN});
   try {
     const formData = new FormData();
     // eslint-disable-next-line guard-for-in

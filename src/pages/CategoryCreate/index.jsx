@@ -21,7 +21,6 @@ const CategoryCreate = () => {
   });
 
   const onSubmit = (values) => {
-    console.log(values);
     dispatch(createCategory(values));
     history.push('/categories/');
   };
