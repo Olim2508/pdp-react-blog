@@ -64,12 +64,12 @@ export const deletePostError = (error) => ({
 });
 
 export const createPostSuccess = (post) => ({
-  type: postsTypes.GET_POST_DETAIL_SUCCESS,
+  type: postsTypes.CREATE_POST_SUCCESS,
   payload: post,
 });
 
 export const createPostError = (error) => ({
-  type: postsTypes.GET_POST_DETAIL_ERROR,
+  type: postsTypes.CREATE_POST_ERROR,
   payload: error,
 });
 

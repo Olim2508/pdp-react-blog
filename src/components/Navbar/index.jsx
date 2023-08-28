@@ -21,7 +21,7 @@ const Navbar = () => {
 
         {isAuthenticated ? (
                 <>
-                  {/* <Link to={'/create'}>Create blog</Link>*/}
+                  <Link to={'/create'}>Create blog</Link>
                   <button onClick={handleLogout}>Log out</button>
                 </>
               ) : (

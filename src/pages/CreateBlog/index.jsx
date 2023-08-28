@@ -1,59 +1,90 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
-import {createPostRequest} from '../../api';
+import {createCategory, createPostRequest, getCategoriesRequest} from '../../api';
 import {useDispatch, useSelector} from 'react-redux';
 import {postsTypes} from '../../redux/actions/blogActions';
+import {ErrorMessage, Field, Form, Formik} from 'formik';
+import {getFieldError} from '../../utils/utils';
+import * as Yup from 'yup';
 
 const CreateBlog = () => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-  const [author, setAuthor] = useState('mario');
-
   const isLoading = useSelector((state) => state.postsReducer.isLoading);
   const success = useSelector((state) => state.postsReducer.success);
+  const error = useSelector((state) => state.postsReducer.error);
+  const categories = useSelector((state) => state.categoriesReducer.categories);
 
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const blog = {title, body, author};
-    console.log(blog);
-    createPostRequest(dispatch, blog);
-    if (success) {
-      dispatch({type: postsTypes.GET_POSTS_RESET});
-    }
+  useEffect(() => {
+    dispatch(getCategoriesRequest());
+  }, []);
+
+  const initialValues = {
+    title: '',
+    author: '',
+    content: '',
+    category: '',
+  };
+
+  const validationSchema = Yup.object({
+    title: Yup.string().required('Title is required'),
+    category: Yup.string().required('Category is required'),
+  });
+
+
+  const onSubmit = (values) => {
+    dispatch(createPostRequest(values));
     history.push('/');
   };
 
   return (
     <div className="create">
       <h2>Add a New Blog</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Blog title:</label>
-        <input
-          type="text"
-          required
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <label>Blog body:</label>
-        <textarea
-          required
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-        />
-        <label>Blog author:</label>
-        <select
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-        >
-          <option value="mario">mario</option>
-          <option value="yoshi">yoshi</option>
-          <option value="olim">olim</option>
-        </select>
-        {isLoading ? <button disabled>Adding Blog...</button> : <button>Add Blog</button>}
-      </form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        <Form>
+
+          <label>Title</label>
+          <Field type="text" name="title" />
+          <ErrorMessage name="title" component="div" className="error" />
+
+          <label>Category</label>
+          <Field as="select" name="category">
+            {categories && (
+              categories.map((category) => {
+                return (
+                  <option key={category.id} value={category.id}>{category.title}</option>
+                );
+              })
+            )}
+          </Field>
+          <ErrorMessage name="category" component="div" className="error" />
+
+          <label>Author</label>
+          <Field type="text" name="author" />
+          <ErrorMessage name="author" component="div" className="error" />
+
+          <label>Content</label>
+          <Field as="textarea" type="text" name="content" />
+          <ErrorMessage name="author" component="div" className="error" />
+
+          {getFieldError('non_field_errors', error) && (
+            <div className="error">{getFieldError('non_field_errors', error)}</div>
+          )}
+
+          {isLoading ? (
+            <button type="submit" disabled style={{marginTop: '20px'}}>
+              Creating post...
+            </button>
+          ) : (
+            <button type="submit">Create Post</button>
+          )}
+        </Form>
+      </Formik>
     </div>
   );
 };

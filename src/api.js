@@ -72,18 +72,14 @@ export const deletePostRequest = (dispatch, id) => {
       .catch((error) => dispatch(getPostDetailError(error)));
 };
 
-export const createPostRequest = (dispatch, data) => {
+export const createPostRequest = (data) => async (dispatch) => {
   dispatch({type: postsTypes.CREATE_POST});
-  const headers = {'Content-Type': 'application/json'};
-  const options = {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(data),
-  };
-  fetch(`${BASE_API_URL}/blogs/`, options)
-      .then((response) => response.json())
-      .then((data) => dispatch(createPostSuccess(data)))
-      .catch((error) => dispatch(createPostError(error)));
+  try {
+    const response = await axInst.post(`/post/`, data);
+    dispatch(createPostSuccess(response.data));
+  } catch (error) {
+    dispatch(createPostError(error.response.data));
+  }
 };
 
 
@@ -112,7 +108,6 @@ export const signUp = (data) => async (dispatch) => {
 };
 
 export const logIn = (data) => async (dispatch) => {
-  console.log('login data', data);
   dispatch({type: authTypes.LOGIN});
   try {
     const formData = new FormData();
