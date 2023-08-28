@@ -15,14 +15,10 @@ services:
       interval: 20s
       timeout: 3s
       retries: 3
-    networks:
-      - microservice_network
   ui:
     build:
       context: .
       dockerfile: ./docker/client/Dockerfile
-    networks:
-      - microservice_network
     restart: always
     volumes:
       - react_build_2:/app/build/nginx
