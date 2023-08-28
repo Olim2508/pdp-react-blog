@@ -14,7 +14,6 @@ const CategoryList = () => {
   useEffect(() => {
     dispatch(getCategoriesRequest());
   }, []);
-  console.log('categories', categories);
 
   // useEffect(() => {
   //   if (isAuthenticated) {

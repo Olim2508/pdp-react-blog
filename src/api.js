@@ -43,12 +43,22 @@ export const getRefreshToken = () => {
   return localStorage.getItem('refreshToken');
 };
 
-export const getPostsRequest = (dispatch) => {
+// export const getPostsRequest = (dispatch) => {
+//   dispatch(getPosts());
+//   fetch(`${BASE_API_URL}/blogs`)
+//       .then((response) => response.json())
+//       .then((data) => dispatch(getPostsSuccess(data)))
+//       .catch((error) => dispatch(getPostsError(error)));
+// };
+
+export const getPostsRequest = () => async (dispatch) => {
   dispatch(getPosts());
-  fetch(`${BASE_API_URL}/blogs`)
-      .then((response) => response.json())
-      .then((data) => dispatch(getPostsSuccess(data)))
-      .catch((error) => dispatch(getPostsError(error)));
+  try {
+    const response = await axInst.get(`/post`);
+    dispatch(getPostsSuccess(response.data));
+  } catch (error) {
+    dispatch(getPostsError(error));
+  }
 };
 
 export const getPostDetailRequest = (dispatch, id) => {

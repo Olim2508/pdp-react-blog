@@ -8,7 +8,7 @@ const initialState = {
   error: null,
   isLoading: false,
   success: false,
-  isAuthenticated: false,
+  isAuthenticated: !!token,
 };
 
 export const authReducer = (state = initialState, action) => {
