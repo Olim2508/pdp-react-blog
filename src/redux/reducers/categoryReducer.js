@@ -30,19 +30,20 @@ export const categoriesReducer = (state = initialState, action) => {
       // case postsTypes.GET_POST_DETAIL_RESET:
       //   return {...state, isLoading: false, success: false, error: ''};
       //
-      // case postsTypes.DELETE_POST:
-      //   return {...state, isLoading: true};
-      // case postsTypes.DELETE_POST_SUCCESS:
-      //   return {...state, isLoading: false, error: '', success: true};
-      // case postsTypes.DELETE_POST_ERROR:
-      //   return {...state, isLoading: false, error: action.payload, success: false};
-      //
+    case categoryTypes.DELETE_CATEGORY:
+      return {...state, isLoading: true};
+    case categoryTypes.DELETE_CATEGORY_SUCCESS:
+      return {...state, isLoading: false, error: '', success: true};
+    case categoryTypes.DELETE_CATEGORY_ERROR:
+      return {...state, isLoading: false, error: action.payload, success: false};
+
     case categoryTypes.CREATE_CATEGORY:
       return {...state, isLoading: true};
     case categoryTypes.CREATE_CATEGORY_SUCCESS:
       return {...state, isLoading: false, error: '', success: true, categories: [...state.categories, action.payload]};
     case categoryTypes.CREATE_CATEGORY_ERROR:
       return {...state, isLoading: false, error: action.payload, success: false};
+
       // case postsTypes.UPDATE_POST:
       //   return {...state, isLoading: true};
       // case postsTypes.UPDATE_POST_SUCCESS:

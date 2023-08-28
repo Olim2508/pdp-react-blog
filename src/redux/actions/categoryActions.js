@@ -46,6 +46,19 @@ export const createCategoryError = (error) => ({
   payload: error,
 });
 
+export const deleteCategory = () => ({
+  type: categoryTypes.DELETE_CATEGORY,
+});
+
+export const deleteCategorySuccess = () => ({
+  type: categoryTypes.DELETE_CATEGORY_SUCCESS,
+});
+
+export const deleteCategoryError = (error) => ({
+  type: categoryTypes.DELETE_CATEGORY_ERROR,
+  payload: error,
+});
+
 // export const getPostDetail = () => ({
 //   type: categoryTypes.GET_CATEGORIES_RESET,
 // });
@@ -60,18 +73,6 @@ export const createCategoryError = (error) => ({
 //   payload: error,
 // });
 //
-// export const deletePost = () => ({
-//   type: postsTypes.GET_POST_DETAIL,
-// });
-//
-// export const deletePostSuccess = () => ({
-//   type: postsTypes.GET_POST_DETAIL_SUCCESS,
-// });
-//
-// export const deletePostError = (error) => ({
-//   type: postsTypes.GET_POST_DETAIL_ERROR,
-//   payload: error,
-// });
 //
 //
 // export const updatePostSuccess = (post) => ({

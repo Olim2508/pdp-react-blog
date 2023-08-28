@@ -1,7 +1,7 @@
 import {
   createPostError,
   createPostSuccess,
-  deletePost,
+  deletePost, deletePostError,
   deletePostSuccess,
   getPostDetail,
   getPostDetailError,
@@ -18,7 +18,7 @@ import {axInst} from './axiosInterceptors';
 import {
   categoryTypes,
   createCategoryError,
-  createCategorySuccess,
+  createCategorySuccess, deleteCategory, deleteCategoryError, deleteCategorySuccess,
   getCategories,
   getCategoriesError,
   getCategoriesSuccess,
@@ -61,14 +61,6 @@ export const getPostsRequest = () => async (dispatch) => {
   }
 };
 
-// export const getPostDetailRequest = (dispatch, id) => {
-//   dispatch(getPostDetail());
-//   fetch(`${BASE_API_URL}/blogs/${id}`)
-//       .then((response) => response.json())
-//       .then((data) => dispatch(getPostDetailSuccess(data)))
-//       .catch((error) => dispatch(getPostDetailError(error)));
-// };
-
 export const getPostDetailRequest = (id) => async (dispatch) => {
   dispatch(getPostDetail());
   try {
@@ -79,17 +71,27 @@ export const getPostDetailRequest = (id) => async (dispatch) => {
   }
 };
 
-export const deletePostRequest = (dispatch, id) => {
+// export const deletePostRequest = (dispatch, id) => {
+//   dispatch(deletePost());
+//   const headers = {'Content-Type': 'application/json'};
+//   const options = {
+//     method: 'DELETE',
+//     headers: headers,
+//   };
+//   fetch(`${BASE_API_URL}/blogs/${id}`, options)
+//       .then((response) => response.json())
+//       .then((data) => dispatch(deletePostSuccess()))
+//       .catch((error) => dispatch(getPostDetailError(error)));
+// };
+
+export const deletePostRequest = (id) => async (dispatch) => {
   dispatch(deletePost());
-  const headers = {'Content-Type': 'application/json'};
-  const options = {
-    method: 'DELETE',
-    headers: headers,
-  };
-  fetch(`${BASE_API_URL}/blogs/${id}`, options)
-      .then((response) => response.json())
-      .then((data) => dispatch(deletePostSuccess()))
-      .catch((error) => dispatch(getPostDetailError(error)));
+  try {
+    const response = await axInst.delete(`/post/${id}`);
+    dispatch(deletePostSuccess());
+  } catch (error) {
+    dispatch(deletePostError(error.response.data));
+  }
 };
 
 export const createPostRequest = (data) => async (dispatch) => {
@@ -183,5 +185,15 @@ export const createCategory = (data) => async (dispatch) => {
     dispatch(createCategorySuccess(response.data));
   } catch (error) {
     dispatch(createCategoryError(error.response.data));
+  }
+};
+
+export const deleteCategoryRequest = (id) => async (dispatch) => {
+  dispatch(deleteCategory());
+  try {
+    const response = await axInst.delete(`/category/${id}`);
+    dispatch(deleteCategorySuccess());
+  } catch (error) {
+    dispatch(deleteCategoryError(error.response.data));
   }
 };

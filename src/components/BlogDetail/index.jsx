@@ -20,7 +20,7 @@ const BlogDetail = () => {
   }, []);
 
   const handleDelete = (id) => {
-    deletePostRequest(dispatch, id);
+    dispatch(deletePostRequest(id));
     if (success) {
       dispatch({type: postsTypes.GET_POSTS_RESET});
     }

@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    volumes:
+      - react_build_2:/app/build
+    depends_on:
+      - ui
+    restart: always
+    healthcheck:
+      test: service nginx status || exit 1
+      interval: 20s
+      timeout: 3s
+      retries: 3
+    networks:
+      - microservice_network
+  ui:
+    build:
+      context: .
+      dockerfile: ./docker/client/Dockerfile
+    networks:
+      - microservice_network
+    restart: always
+    volumes:
+      - react_build_2:/app/build/nginx
+
+volumes:
+  react_build_2:
