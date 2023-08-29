@@ -27,4 +27,82 @@ The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
 
+## Set up nginx settings in remote server
+### 1. Clone Your React App:
+
+Navigate to the appropriate directory where you want to deploy your React app, and clone your app's repository:
+
+```
+git clone https://github.com/yourusername/your-react-app.git
+```
+### 2. Install nginx:
+```
+sudo yum update -y
+sudo yum install -y git nginx
+```
+
+### 3. Build Your React App
+
+Navigate to the appropriate directory where you want to deploy your React app, and clone your app's repository:
+
+```
+cd your-react-app
+npm install
+npm run build
+```
+
+
+### 4. Configure Nginx:
+
+Create an Nginx server block configuration for your app:
+
+```
+sudo nano /etc/nginx/conf.d/your-react-app.conf
+```
+
+### 5. Configure Nginx:
+
+Create an Nginx server block configuration for your app:
+
+```
+sudo nano /etc/nginx/conf.d/your-react-app.conf
+```
+
+Add the following configuration, replacing your-domain.com with your actual domain name:
+```
+server {
+    listen 80;
+    server_name blog.olim.space;
+
+    location / {
+        root /home/ec2-user/pdp-react-blog/build;
+        index index.html;
+        try_files $uri /index.html;
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+}
+```
+
+Save and close the file (press Ctrl + X, then Y, then Enter).
+
+
+### 6. Test Nginx Configuration:
+```sudo nginx -t```
+
+### 7. Start Nginx:
+```sudo systemctl start nginx```
+
+### 8. Enable Nginx to Start on Boot:
+```
+sudo systemctl enable nginx
+```
+
+### 9. Configure Domain Name:
+Update your domain's DNS settings to point to your EC2 instance's IP address.
+
+### 10. Access Your React App
 
