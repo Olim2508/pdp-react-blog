@@ -53,7 +53,7 @@ const axiosResponseErrorInterceptor = (error) => {
       return Promise.reject(error);
     }
   } else {
-    return handleError(error);
+    return Promise.reject(error);
   }
 };
 

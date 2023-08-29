@@ -71,19 +71,6 @@ export const getPostDetailRequest = (id) => async (dispatch) => {
   }
 };
 
-// export const deletePostRequest = (dispatch, id) => {
-//   dispatch(deletePost());
-//   const headers = {'Content-Type': 'application/json'};
-//   const options = {
-//     method: 'DELETE',
-//     headers: headers,
-//   };
-//   fetch(`${BASE_API_URL}/blogs/${id}`, options)
-//       .then((response) => response.json())
-//       .then((data) => dispatch(deletePostSuccess()))
-//       .catch((error) => dispatch(getPostDetailError(error)));
-// };
-
 export const deletePostRequest = (id) => async (dispatch) => {
   dispatch(deletePost());
   try {
@@ -104,20 +91,30 @@ export const createPostRequest = (data) => async (dispatch) => {
   }
 };
 
-
-export const updatePostRequest = (dispatch, id, data) => {
+export const updatePostRequest = (id, post) => async (dispatch) => {
   dispatch({type: postsTypes.UPDATE_POST});
-  const headers = {'Content-Type': 'application/json'};
-  const options = {
-    method: 'PUT',
-    headers: headers,
-    body: JSON.stringify(data),
-  };
-  fetch(`${BASE_API_URL}/blogs/${id}`, options)
-      .then((response) => response.json())
-      .then((data) => dispatch(updatePostSuccess(data)))
-      .catch((error) => dispatch(updatePostError(error)));
+  try {
+    const response = await axInst.put(`/post/${id}`, post);
+    dispatch(updatePostSuccess(response.data));
+  } catch (error) {
+    dispatch(updatePostError(error));
+  }
 };
+
+
+// export const updatePostRequest = (dispatch, id, data) => {
+//   dispatch({type: postsTypes.UPDATE_POST});
+//   const headers = {'Content-Type': 'application/json'};
+//   const options = {
+//     method: 'PUT',
+//     headers: headers,
+//     body: JSON.stringify(data),
+//   };
+//   fetch(`${BASE_API_URL}/blogs/${id}`, options)
+//       .then((response) => response.json())
+//       .then((data) => dispatch(updatePostSuccess(data)))
+//       .catch((error) => dispatch(updatePostError(error)));
+// };
 
 
 export const signUp = (data) => async (dispatch) => {
