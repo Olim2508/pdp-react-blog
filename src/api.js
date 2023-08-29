@@ -100,7 +100,7 @@ export const createPostRequest = (data) => async (dispatch) => {
     const response = await axInst.post(`/post/`, data);
     dispatch(createPostSuccess(response.data));
   } catch (error) {
-    dispatch(createPostError(error.response.data));
+    dispatch(createPostError(error));
   }
 };
 
@@ -170,6 +170,7 @@ export const getUserMe = () => async (dispatch) => {
 };
 
 export const getCategoriesRequest = () => async (dispatch) => {
+  dispatch(getCategories());
   try {
     const response = await axInst.get(`/category`);
     dispatch(getCategoriesSuccess(response.data));
@@ -192,8 +193,11 @@ export const deleteCategoryRequest = (id) => async (dispatch) => {
   dispatch(deleteCategory());
   try {
     const response = await axInst.delete(`/category/${id}`);
-    dispatch(deleteCategorySuccess());
+    dispatch(deleteCategorySuccess(id));
   } catch (error) {
-    dispatch(deleteCategoryError(error.response.data));
+    console.log('error on delete', error);
+    dispatch(deleteCategoryError(error));
+  } finally {
+    dispatch({type: categoryTypes.DELETE_CATEGORY_RESET});
   }
 };

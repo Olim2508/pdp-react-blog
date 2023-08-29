@@ -33,9 +33,13 @@ export const categoriesReducer = (state = initialState, action) => {
     case categoryTypes.DELETE_CATEGORY:
       return {...state, isLoading: true};
     case categoryTypes.DELETE_CATEGORY_SUCCESS:
-      return {...state, isLoading: false, error: '', success: true};
+      // const deletedCategoryIndex = state.categories.findIndex((category) => category.id === action.payload);
+      const updatedCategories = state.categories.filter((category) => category.id !== action.payload);
+      return {...state, isLoading: false, error: '', success: true, categories: updatedCategories};
     case categoryTypes.DELETE_CATEGORY_ERROR:
       return {...state, isLoading: false, error: action.payload, success: false};
+    case categoryTypes.DELETE_CATEGORY_RESET:
+      return {...state, isLoading: false, error: '', success: false};
 
     case categoryTypes.CREATE_CATEGORY:
       return {...state, isLoading: true};

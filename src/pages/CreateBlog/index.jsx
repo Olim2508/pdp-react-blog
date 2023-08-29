@@ -16,9 +16,9 @@ const CreateBlog = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getCategoriesRequest());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getCategoriesRequest());
+  // }, []);
 
   const initialValues = {
     title: '',

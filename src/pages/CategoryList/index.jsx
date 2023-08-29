@@ -17,8 +17,8 @@ const CategoryList = () => {
     dispatch(getCategoriesRequest());
   }, []);
 
-  const handleDelete = (id) => {
-    dispatch(deleteCategoryRequest(id));
+  const handleDelete = async (id) => {
+    await dispatch(deleteCategoryRequest(id));
     if (success) {
       dispatch({type: categoryTypes.GET_CATEGORIES_RESET});
     }
@@ -42,10 +42,8 @@ const CategoryList = () => {
         <div className="blog-list">
           {categories.map((category) => (
             <div className="blog-preview" key={category.id} >
-              {/* <Link to={`/blogs/${blog.id}`}>*/}
               <h2>{ category.title }</h2>
               <button className={'btn'} onClick={() => handleDelete(category.id)}>Delete</button>
-              {/* </Link>*/}
             </div>
           ))}
         </div>
