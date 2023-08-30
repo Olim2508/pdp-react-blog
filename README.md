@@ -57,15 +57,7 @@ npm run build
 Create an Nginx server block configuration for your app:
 
 ```
-sudo nano /etc/nginx/conf.d/your-react-app.conf
-```
-
-### 5. Configure Nginx:
-
-Create an Nginx server block configuration for your app:
-
-```
-sudo nano /etc/nginx/conf.d/your-react-app.conf
+sudo nano /etc/nginx/conf.d/pdp-react-app.conf
 ```
 
 Add the following configuration, replacing your-domain.com with your actual domain name:
@@ -86,15 +78,34 @@ server {
     }
 }
 ```
+or
+```
+server {
+    server_name blog.olim.space;
+    root /home/ec2-user/pdp-react-blog/build;
+    index index.html;
+    try_files $uri /index.html;
+    access_log /var/log/nginx/access.log;
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+}
+```
 
 Save and close the file (press Ctrl + X, then Y, then Enter).
 
 
 ### 6. Test Nginx Configuration:
-```sudo nginx -t```
+```
+sudo nginx -t
+```
 
 ### 7. Start Nginx:
-```sudo systemctl start nginx```
+```
+sudo systemctl start nginx
+```
 
 ### 8. Enable Nginx to Start on Boot:
 ```
