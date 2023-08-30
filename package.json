@@ -1,5 +1,5 @@
 {
-  "name": "net-ninja-blog-react",
+  "name": "pdp-react-blog",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -23,6 +23,7 @@
   "scripts": {
     "start": "env-cmd -f .env.development react-scripts start",
     "build": "react-scripts build",
+    "build:clean": "rm -rf ./build/*",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
