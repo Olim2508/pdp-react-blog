@@ -54,7 +54,7 @@ export const getRefreshToken = () => {
 export const getPostsRequest = () => async (dispatch) => {
   dispatch(getPosts());
   try {
-    const response = await axInst.get(`/post`);
+    const response = await axInst.get(`/post/`);
     dispatch(getPostsSuccess(response.data));
   } catch (error) {
     dispatch(getPostsError(error));
@@ -77,7 +77,7 @@ export const deletePostRequest = (id) => async (dispatch) => {
     const response = await axInst.delete(`/post/${id}`);
     dispatch(deletePostSuccess());
   } catch (error) {
-    dispatch(deletePostError(error.response.data));
+    dispatch(deletePostError(error));
   }
 };
 
@@ -100,22 +100,6 @@ export const updatePostRequest = (id, post) => async (dispatch) => {
     dispatch(updatePostError(error));
   }
 };
-
-
-// export const updatePostRequest = (dispatch, id, data) => {
-//   dispatch({type: postsTypes.UPDATE_POST});
-//   const headers = {'Content-Type': 'application/json'};
-//   const options = {
-//     method: 'PUT',
-//     headers: headers,
-//     body: JSON.stringify(data),
-//   };
-//   fetch(`${BASE_API_URL}/blogs/${id}`, options)
-//       .then((response) => response.json())
-//       .then((data) => dispatch(updatePostSuccess(data)))
-//       .catch((error) => dispatch(updatePostError(error)));
-// };
-
 
 export const signUp = (data) => async (dispatch) => {
   try {
@@ -142,7 +126,7 @@ export const logIn = (data) => async (dispatch) => {
     });
     dispatch(logInSuccess(response.data));
   } catch (error) {
-    dispatch(logInError(error.response.data));
+    dispatch(logInError(error));
   }
 };
 
@@ -162,14 +146,14 @@ export const getUserMe = () => async (dispatch) => {
     const response = await axInst.get(`/user/me`);
     dispatch({type: authTypes.GET_USER_ME_SUCCESS, payload: response.data});
   } catch (error) {
-    dispatch({type: authTypes.GET_USER_ME_ERROR, payload: error.response.data});
+    dispatch({type: authTypes.GET_USER_ME_ERROR, payload: error});
   }
 };
 
 export const getCategoriesRequest = () => async (dispatch) => {
   dispatch(getCategories());
   try {
-    const response = await axInst.get(`/category`);
+    const response = await axInst.get(`/category/`);
     dispatch(getCategoriesSuccess(response.data));
   } catch (error) {
     dispatch(getCategoriesError(error));
