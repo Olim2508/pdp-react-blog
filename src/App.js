@@ -10,6 +10,7 @@ import LogIn from './pages/LogIn';
 import CategoryList from './pages/CategoryList';
 import CategoryCreate from './pages/CategoryCreate';
 import routes from './constants/routes';
+import ResponsiveNavBar from './components/NavbarNew';
 
 // const Home = lazy(() => import('./pages/Home'));
 
@@ -18,6 +19,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <ResponsiveNavBar/>
         <Navbar/>
         <Switch>
           <React.Fragment>
@@ -32,7 +34,6 @@ function App() {
               <Route path={routes.categoryCreate} component={CategoryCreate} />
             </div>
           </React.Fragment>
-
         </Switch>
       </div>
     </Router>
