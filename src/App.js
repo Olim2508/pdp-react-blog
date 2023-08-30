@@ -1,7 +1,7 @@
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import CreateBlog from './pages/CreateBlog';
+import CreateBlog from './pages/BlogCreate';
 import BlogDetail from './components/BlogDetail';
 import React from 'react';
 import BlogUpdate from './components/BlogUpdate';

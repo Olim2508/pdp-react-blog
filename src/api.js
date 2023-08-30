@@ -1,7 +1,7 @@
 import {
   createPostError,
   createPostSuccess,
-  deletePost,
+  deletePost, deletePostError,
   deletePostSuccess,
   getPostDetail,
   getPostDetailError,
@@ -18,7 +18,7 @@ import {axInst} from './axiosInterceptors';
 import {
   categoryTypes,
   createCategoryError,
-  createCategorySuccess,
+  createCategorySuccess, deleteCategory, deleteCategoryError, deleteCategorySuccess,
   getCategories,
   getCategoriesError,
   getCategoriesSuccess,
@@ -43,64 +43,63 @@ export const getRefreshToken = () => {
   return localStorage.getItem('refreshToken');
 };
 
-export const getPostsRequest = (dispatch) => {
+// export const getPostsRequest = (dispatch) => {
+//   dispatch(getPosts());
+//   fetch(`${BASE_API_URL}/blogs`)
+//       .then((response) => response.json())
+//       .then((data) => dispatch(getPostsSuccess(data)))
+//       .catch((error) => dispatch(getPostsError(error)));
+// };
+
+export const getPostsRequest = () => async (dispatch) => {
   dispatch(getPosts());
-  fetch(`${BASE_API_URL}/blogs`)
-      .then((response) => response.json())
-      .then((data) => dispatch(getPostsSuccess(data)))
-      .catch((error) => dispatch(getPostsError(error)));
+  try {
+    const response = await axInst.get(`/post/`);
+    dispatch(getPostsSuccess(response.data));
+  } catch (error) {
+    dispatch(getPostsError(error));
+  }
 };
 
-export const getPostDetailRequest = (dispatch, id) => {
+export const getPostDetailRequest = (id) => async (dispatch) => {
   dispatch(getPostDetail());
-  fetch(`${BASE_API_URL}/blogs/${id}`)
-      .then((response) => response.json())
-      .then((data) => dispatch(getPostDetailSuccess(data)))
-      .catch((error) => dispatch(getPostDetailError(error)));
+  try {
+    const response = await axInst.get(`/post/${id}`);
+    dispatch(getPostDetailSuccess(response.data));
+  } catch (error) {
+    dispatch(getPostDetailError(error));
+  }
 };
 
-export const deletePostRequest = (dispatch, id) => {
+export const deletePostRequest = (id) => async (dispatch) => {
   dispatch(deletePost());
-  const headers = {'Content-Type': 'application/json'};
-  const options = {
-    method: 'DELETE',
-    headers: headers,
-  };
-  fetch(`${BASE_API_URL}/blogs/${id}`, options)
-      .then((response) => response.json())
-      .then((data) => dispatch(deletePostSuccess()))
-      .catch((error) => dispatch(getPostDetailError(error)));
+  try {
+    const response = await axInst.delete(`/post/${id}`);
+    dispatch(deletePostSuccess());
+  } catch (error) {
+    dispatch(deletePostError(error));
+  }
 };
 
-export const createPostRequest = (dispatch, data) => {
+export const createPostRequest = (data) => async (dispatch) => {
   dispatch({type: postsTypes.CREATE_POST});
-  const headers = {'Content-Type': 'application/json'};
-  const options = {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(data),
-  };
-  fetch(`${BASE_API_URL}/blogs/`, options)
-      .then((response) => response.json())
-      .then((data) => dispatch(createPostSuccess(data)))
-      .catch((error) => dispatch(createPostError(error)));
+  try {
+    const response = await axInst.post(`/post/`, data);
+    dispatch(createPostSuccess(response.data));
+  } catch (error) {
+    dispatch(createPostError(error));
+  }
 };
 
-
-export const updatePostRequest = (dispatch, id, data) => {
+export const updatePostRequest = (id, post) => async (dispatch) => {
   dispatch({type: postsTypes.UPDATE_POST});
-  const headers = {'Content-Type': 'application/json'};
-  const options = {
-    method: 'PUT',
-    headers: headers,
-    body: JSON.stringify(data),
-  };
-  fetch(`${BASE_API_URL}/blogs/${id}`, options)
-      .then((response) => response.json())
-      .then((data) => dispatch(updatePostSuccess(data)))
-      .catch((error) => dispatch(updatePostError(error)));
+  try {
+    const response = await axInst.put(`/post/${id}`, post);
+    dispatch(updatePostSuccess(response.data));
+  } catch (error) {
+    dispatch(updatePostError(error));
+  }
 };
-
 
 export const signUp = (data) => async (dispatch) => {
   try {
@@ -112,7 +111,6 @@ export const signUp = (data) => async (dispatch) => {
 };
 
 export const logIn = (data) => async (dispatch) => {
-  console.log('login data', data);
   dispatch({type: authTypes.LOGIN});
   try {
     const formData = new FormData();
@@ -128,7 +126,7 @@ export const logIn = (data) => async (dispatch) => {
     });
     dispatch(logInSuccess(response.data));
   } catch (error) {
-    dispatch(logInError(error.response.data));
+    dispatch(logInError(error));
   }
 };
 
@@ -148,13 +146,14 @@ export const getUserMe = () => async (dispatch) => {
     const response = await axInst.get(`/user/me`);
     dispatch({type: authTypes.GET_USER_ME_SUCCESS, payload: response.data});
   } catch (error) {
-    dispatch({type: authTypes.GET_USER_ME_ERROR, payload: error.response.data});
+    dispatch({type: authTypes.GET_USER_ME_ERROR, payload: error});
   }
 };
 
 export const getCategoriesRequest = () => async (dispatch) => {
+  dispatch(getCategories());
   try {
-    const response = await axInst.get(`/category`);
+    const response = await axInst.get(`/category/`);
     dispatch(getCategoriesSuccess(response.data));
   } catch (error) {
     dispatch(getCategoriesError(error));
@@ -168,5 +167,18 @@ export const createCategory = (data) => async (dispatch) => {
     dispatch(createCategorySuccess(response.data));
   } catch (error) {
     dispatch(createCategoryError(error.response.data));
+  }
+};
+
+export const deleteCategoryRequest = (id) => async (dispatch) => {
+  dispatch(deleteCategory());
+  try {
+    const response = await axInst.delete(`/category/${id}`);
+    dispatch(deleteCategorySuccess(id));
+  } catch (error) {
+    console.log('error on delete', error);
+    dispatch(deleteCategoryError(error));
+  } finally {
+    dispatch({type: categoryTypes.DELETE_CATEGORY_RESET});
   }
 };

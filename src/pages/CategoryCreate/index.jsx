@@ -20,8 +20,8 @@ const CategoryCreate = () => {
     title: Yup.string().required('Title is required'),
   });
 
-  const onSubmit = (values) => {
-    dispatch(createCategory(values));
+  const onSubmit = async (values) => {
+    await dispatch(createCategory(values));
     history.push('/categories/');
   };
 

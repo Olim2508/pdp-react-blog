@@ -16,6 +16,7 @@ export const postsTypes = {
   CREATE_POST: 'CREATE_POST',
   CREATE_POST_SUCCESS: 'CREATE_POST_SUCCESS',
   CREATE_POST_ERROR: 'CREATE_POST_ERROR',
+  CREATE_POST_RESET: 'CREATE_POST_RESET',
 
   UPDATE_POST: 'UPDATE_POST',
   UPDATE_POST_SUCCESS: 'UPDATE_POST_SUCCESS',
@@ -64,12 +65,12 @@ export const deletePostError = (error) => ({
 });
 
 export const createPostSuccess = (post) => ({
-  type: postsTypes.GET_POST_DETAIL_SUCCESS,
+  type: postsTypes.CREATE_POST_SUCCESS,
   payload: post,
 });
 
 export const createPostError = (error) => ({
-  type: postsTypes.GET_POST_DETAIL_ERROR,
+  type: postsTypes.CREATE_POST_ERROR,
   payload: error,
 });
 
