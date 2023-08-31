@@ -34,7 +34,7 @@ const axiosResponseInterceptor = (response) => {
 const axiosResponseErrorInterceptor = (error) => {
   const originalRequest = error.config;
   console.log('error in interceptor', error);
-  if (error.response.status === 401 && error.config.url !== REFRESH_URL) {
+  if ((error.response.status === 401 || error.response.status === 403) && error.config.url !== REFRESH_URL) {
     const refresh = getRefreshToken();
     if (refresh) {
       return axInst
