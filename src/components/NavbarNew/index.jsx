@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import BookIcon from '@mui/icons-material/Book';
+import {Link} from 'react-router-dom';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -88,11 +89,22 @@ function ResponsiveNavBar() {
                 display: {xs: 'block', md: 'none'},
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {/* hidden inside hamburger items*/}
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography component={Link} style={{textDecoration: 'none'}} to={'/'} textAlign="center">
+                    Home
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography component={Link} style={{textDecoration: 'none'}} to={'/categories/'} textAlign="center">
+                    Categories
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography component={Link} style={{textDecoration: 'none'}} to={'/create/'} textAlign="center">
+                    Create Post
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <BookIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}} />
@@ -112,18 +124,34 @@ function ResponsiveNavBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            My Blog
           </Typography>
           <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{my: 2, color: 'white', display: 'block'}}
-              >
-                {page}
-              </Button>
-            ))}
+            {/*  navbar items*/}
+            <Button
+              onClick={handleCloseNavMenu}
+              component={Link}
+              to={'/'}
+              sx={{my: 2, color: 'white', display: 'block'}}
+            >
+              Home
+            </Button>
+            <Button
+              onClick={handleCloseNavMenu}
+              component={Link}
+              to={'/categories/'}
+              sx={{my: 2, color: 'white', display: 'block'}}
+            >
+              Categories
+            </Button>
+            <Button
+              onClick={handleCloseNavMenu}
+              component={Link}
+              to={'/create/'}
+              sx={{my: 2, color: 'white', display: 'block'}}
+            >
+              Create Post
+            </Button>
           </Box>
 
           <Box sx={{flexGrow: 0}}>
