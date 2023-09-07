@@ -19,12 +19,12 @@ const CreateBlog = () => {
 
   const initialValues = {
     title: '',
-    author: '',
     content: '',
     category: '',
   };
 
   const onSubmit = async (values) => {
+    console.log('values', values);
     await dispatch(createPostRequest(values));
     history.push('/');
   };

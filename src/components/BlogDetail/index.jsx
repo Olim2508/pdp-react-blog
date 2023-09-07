@@ -35,7 +35,7 @@ const BlogDetail = () => {
         <article>
           <h2>{ post.title }</h2>
           <p>Category: {post.category?.title}</p>
-          <p>Author: { post.author }</p>
+          <p>Author: { post.author?.full_name } { post.author?.email }</p>
           <div>{ post.content }</div>
           <button onClick={() => handleDelete(post.id)}>Delete</button>
           <Link to={`/update/${post.id}`}>
