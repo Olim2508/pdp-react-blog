@@ -5,6 +5,8 @@ import {authTypes} from '../../redux/actions/authActions';
 import {useHistory} from 'react-router-dom';
 import {getFieldError} from '../../utils/utils';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
+import {FormLabel, TextField} from '@mui/material';
+import Button from '@mui/material/Button';
 
 const LogIn = () => {
   const [email, setEmail] = useState('');
@@ -43,28 +45,47 @@ const LogIn = () => {
         // validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        <Form>
+        {({handleChange, values}) => ( // Destructure handleChange and values from Formik props
+          <Form>
 
-          <label>Email</label>
-          <Field type="email" name="email" />
-          <ErrorMessage name="email" component="div" className="error" />
+            <FormLabel sx={{mt: 1}}>Email</FormLabel>
+            <TextField
+              variant="outlined"
+              name='email'
+              type='email'
+              fullWidth
+              onChange={handleChange}
+              value={values.email}
+            />
+            <ErrorMessage name="email" component="div" className="error" />
 
-          <label>Password</label>
-          <Field type="password" name="password" />
-          <ErrorMessage name="password" component="div" className="error" />
+            <FormLabel sx={{mt: 1}}>Password</FormLabel>
+            <TextField
+              variant="outlined"
+              name='password'
+              type='password'
+              fullWidth
+              onChange={handleChange}
+              value={values.password}
+            />
+            <ErrorMessage name="password" component="div" className="error" />
 
-          {getFieldError('non_field_errors', error) && (
-            <div className="error">{getFieldError('non_field_errors', error)}</div>
-          )}
+            {getFieldError('non_field_errors', error) && (
+              <div className="error">{getFieldError('non_field_errors', error)}</div>
+            )}
 
-          {isLoading ? (
-            <button type="submit" disabled style={{marginTop: '20px'}}>
-              Logging in...
-            </button>
+            {isLoading ? (
+            <Button sx={{mt: 2}} type="submit" disabled variant="contained">
+                  Logging in...
+            </Button>
           ) : (
-            <button type="submit">Log in</button>
+            <Button sx={{mt: 2}} type="submit" variant="contained">
+                  Log in
+            </Button>
           )}
-        </Form>
+          </Form>
+        )}
+
       </Formik>
     </div>
   );
