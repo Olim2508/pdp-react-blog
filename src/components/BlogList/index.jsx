@@ -9,7 +9,7 @@ const BlogList = ({blogs}) => {
         <div className="blog-preview" key={blog.id} >
           <Link to={`/blogs/${blog.id}`}>
             <h2>{ blog.title }</h2>
-            <p><b>Written by</b> { blog.author }</p>
+            <p><b>Written by</b> { blog.author?.full_name }</p>
             <p><b>Category</b> { blog.category?.title }</p>
           </Link>
         </div>

@@ -20,7 +20,7 @@ function App() {
     <Router>
       <div className="App">
         <ResponsiveNavBar/>
-        <Navbar/>
+        {/* <Navbar/>*/}
         <Switch>
           <React.Fragment>
             <div className={'content'}>

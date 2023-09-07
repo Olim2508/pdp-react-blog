@@ -11,16 +11,25 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import BookIcon from '@mui/icons-material/Book';
 import {Link} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {logOut} from '../../api';
+import {MenuList} from '@mui/material';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function ResponsiveNavBar() {
+const ResponsiveNavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const isAuthenticated = useSelector((state) => state.authReducer.isAuthenticated);
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    console.log('logged out');
+    setAnchorElNav(null);
+    dispatch(logOut());
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -100,11 +109,13 @@ function ResponsiveNavBar() {
                     Categories
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography component={Link} style={{textDecoration: 'none'}} to={'/create/'} textAlign="center">
+              {isAuthenticated && (
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography component={Link} style={{textDecoration: 'none'}} to={'/create/'} textAlign="center">
                     Create Post
-                </Typography>
-              </MenuItem>
+                  </Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
           <BookIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}} />
@@ -144,14 +155,16 @@ function ResponsiveNavBar() {
             >
               Categories
             </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              component={Link}
-              to={'/create/'}
-              sx={{my: 2, color: 'white', display: 'block'}}
-            >
+            {isAuthenticated && (
+              <Button
+                onClick={handleCloseNavMenu}
+                component={Link}
+                to={'/create/'}
+                sx={{my: 2, color: 'white', display: 'block'}}
+              >
               Create Post
-            </Button>
+              </Button>
+            )}
           </Box>
 
           <Box sx={{flexGrow: 0}}>
@@ -176,16 +189,34 @@ function ResponsiveNavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              {isAuthenticated ? (
+                    <MenuItem onClick={handleLogout}>
+                      <Typography textAlign="center">Log out</Typography>
+                    </MenuItem>
+                ) : (
+                    <MenuList>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography
+                          style={{textDecoration: 'none'}} component={Link} to={'/sign-up'} textAlign="center">
+                            Sign up
+                        </Typography>
+                      </MenuItem>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography
+                          style={{textDecoration: 'none'}} component={Link} to={'/log-in'} textAlign="center">
+                            Log in
+                        </Typography>
+                      </MenuItem>
+                    </MenuList>
+                )}
             </Menu>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
-}
+};
 export default ResponsiveNavBar;
