@@ -5,6 +5,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
 import {getFieldError} from '../../utils/utils';
 import * as Yup from 'yup';
+import {FormLabel, TextField} from '@mui/material';
+import Button from '@mui/material/Button';
 
 const CategoryCreate = () => {
   const categoryState = useSelector((state) => state.categoriesReducer);
@@ -33,24 +35,37 @@ const CategoryCreate = () => {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        <Form>
+        {({handleChange, values}) => ( // Destructure handleChange and values from Formik props
+          <Form>
 
-          <label>Title</label>
-          <Field type="text" name="title" />
-          <ErrorMessage name="title" component="div" className="error" />
+            <FormLabel sx={{mt: 2}}>Title</FormLabel>
+            <TextField
+              id="filled-basic"
+              variant="outlined"
+              name='title'
+              type='text'
+              fullWidth
+              onChange={handleChange}
+              value={values.title}
+            />
+            <ErrorMessage name="title" component="div" className="error" />
 
-          {getFieldError('non_field_errors', categoryState.error) && (
-            <div className="error">{getFieldError('non_field_errors', categoryState.error)}</div>
-          )}
+            {getFieldError('non_field_errors', categoryState.error) && (
+              <div className="error">{getFieldError('non_field_errors', categoryState.error)}</div>
+            )}
 
-          {categoryState.isLoading ? (
-            <button type="submit" disabled style={{marginTop: '20px'}}>
-              Creating category...
-            </button>
+            {categoryState.isLoading ? (
+            <Button sx={{mt: 2}} type="submit" disabled variant="contained">
+                  Creating...
+            </Button>
           ) : (
-            <button type="submit">Create Category</button>
+            <Button sx={{mt: 2}} type="submit" variant="contained">
+                  Create
+            </Button>
           )}
-        </Form>
+          </Form>
+        )}
+
       </Formik>
     </div>
   );
